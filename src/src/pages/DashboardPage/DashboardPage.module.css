@@ -1,0 +1,264 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    text-align: center;
+    position: relative;
+}
+
+.logo {
+    height: 40px;
+    margin-left: 20px;
+}
+
+.user {
+    padding: 0 10px;
+    color: white;
+}
+
+.titleBar {
+    position: sticky;
+    background-color: #13262C;
+    display: flex;
+    align-items: center;
+    top: 0;
+}
+
+.menuIcon {
+    margin: 0 40px;
+    height: 50px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.drawer {
+    width: 230px;
+    padding: 20px;
+}
+
+.div {
+    display: flex;
+    min-height: calc(100%);
+}
+
+.drawerItem {
+    display: flex;
+    height: 40px;
+}
+
+.drawerItemTitle {
+    margin-left: 10px;
+    color: #323330;
+    cursor: pointer;
+}
+
+.navTitle {
+    text-transform: uppercase;
+    color: gray;
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.drawerIcon {
+    color: #323330;
+}
+
+.body {
+    background-color: #E4E7EA;
+    flex: 1;
+    text-align: left;
+}
+
+.bodyTitleBar {
+    display: flex;
+    background-color: #F7F7F7;
+    padding: 10px;
+    align-items: center;
+}
+
+.bodyTitle {
+    flex: 1;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.uploadButton {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #F38108;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+}
+
+.uploadButtonText {
+    margin: 0 5px 0 5px;
+}
+
+.searchBarWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.searchBarWrapper input {
+    background-color: white;
+    height: 40px;
+    margin: 0 0 0 20px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    width: 300px;
+    font-size: 16px;
+}
+.searchButton {
+    color: white;
+    background-color: #428BCA;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    height: 40px;
+    border: none;
+    padding: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.tableWrapper {
+    background-color: white;
+    margin: 20px 20px 20px 20px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.tableTitle {
+    background-color: #5BC0DE;
+    padding: 10px;
+}
+.usageWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.usageTextContainer {
+    display: flex;
+}
+.usageText {
+    color: #888D8D;
+}
+.usageRange {
+    background: #F2F2F2;
+    height: 20px;
+    margin-top: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.usageRangeValue {
+    background-color: #07F16B;
+    height: 100%;
+}
+.table {
+    margin: 10px;
+    width: calc(100% - 20px);
+    border: 2px solid #EEEEEE;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+.table td {
+    padding: 0 10px;
+    height: 50px;
+    text-align: center;
+}
+.table thead td {
+    font-weight: bold;
+}
+.table tr:nth-child(odd) {
+    background-color: #EEEEEE;
+}
+.report {
+    padding: 10px 0 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reportItem {
+    width: 100px;
+    height: 100px;
+    border: 4px solid #428BCA;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+.reportProp {
+    color: #555;
+    margin-top: 10px;
+}
+.fileInput {
+    margin: 10px 10px 10px 0;
+    display: flex;
+}
+.file {
+    background-color: #EEEEEE;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin: 0 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    width: 300px;
+    font-size: 16px;
+}
+.update {
+    /*padding: 0 10px;*/
+}
+.fileId {
+    background-color: #EEEEEE;
+    height: 20px;
+    margin: 0 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    width: 100px;
+    font-size: 16px;
+}
+.fileUploadLabel, .finalUploadButton {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #F38108;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+}
+.finalUploadButton {
+    margin: 10px;
+    justify-content: center;
+}

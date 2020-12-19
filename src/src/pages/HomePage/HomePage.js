@@ -3,7 +3,7 @@ import classes from './HomePage.module.css';
 import home from '../../../assets/backgroundImages/home.png';
 import logo from '../../../assets/logo.svg';
 import upload from '../../../assets/upload.svg';
-import {navBarLinks} from "../../components/navBar/data";
+import {navBarLinks} from "../../constants";
 import {Link} from 'react-router-dom';
 
 const HomePage = props => {
@@ -11,7 +11,7 @@ const HomePage = props => {
         <div className={classes.wrapper} style={{backgroundImage: `url(${home})`}}>
             <img src={logo} alt={"UPLOADY"} className={classes.logo} />
             <div className={classes.uploadWrapper}>
-                <div className={classes.uploadIcon}>
+                <div className={classes.uploadIcon} onClick={() => {props.history.push('/myPanel')}}>
                     <img src={upload} alt={"Upload"} className={classes.upload}/>
                     <div className={classes.uploadText}>Upload File</div>
                 </div>
