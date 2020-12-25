@@ -4,6 +4,8 @@ import auth from '../../../assets/backgroundImages/auth.png';
 import {authNavBarLinks} from "../../constants";
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import {toast} from "react-toastify";
+
 
 const AuthPage = props => {
     const [username, setUsername] = useState('');
@@ -18,8 +20,11 @@ const AuthPage = props => {
             .post('/api/login', data, {withCredentials: true})
             .then(res => {
                 if (res.data.success) {
+                    toast.success(res.data.msg);
                     props.history.replace('/');
-                } else (alert(res.data.msg));
+                } else {
+                    toast.error(res.data.msg)
+                };
             })
             .catch(err => {});
     };
@@ -34,7 +39,7 @@ const AuthPage = props => {
                 <div className={classes.authTitle}>User Login</div>
                 <div className={classes.authDescription}>Sign in and start sharing your files!</div>
                 <input
-                    style={{color: username ? 'black' : 'white'}}
+                    style={{color: username ? 'black' : '#666666'}}
                     type={"text"}
                     value={username}
                     placeholder={"Username"}
@@ -42,7 +47,7 @@ const AuthPage = props => {
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <input
-                    style={{color: password ? 'black' : 'white'}}
+                    style={{color: password ? 'black' : '#666666'}}
                     type={"password"}
                     value={password}
                     placeholder={"Password"}
@@ -51,9 +56,7 @@ const AuthPage = props => {
                 />
                 <div className={classes.row}>
                     <div className={classes.forgotPassword}>Forgot password?</div>
-                    <button className={classes.signInButton} onClick={() => {
-                        axios.get('/api/posts').then((response) => {console.log(response)})
-                    }}>Sign In</button>
+                    <button className={classes.signInButton}>Sign Up</button>
                 </div>
                 <button className={classes.submit} onClick={handleLogin}>Login</button>
             </div>

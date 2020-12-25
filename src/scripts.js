@@ -1,10 +1,12 @@
 import Cookies from "js-cookie";
 
-const isLoggedIn = () => !!Cookies.get('uploadyToken');
+const getToken = () => Cookies.get('uploadyToken');
 
-const checkAuthentication = (history) =>  {
+const getUsername = () => Cookies.get('username');
+
+const checkAuthentication = (history) => {
     if (!!!Cookies.get('uploadyToken'))
         history.replace('/auth');
 };
 
-export {isLoggedIn, checkAuthentication}
+export {getToken, checkAuthentication, getUsername}

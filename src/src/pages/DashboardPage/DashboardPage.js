@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import classes from './DashboardPage.module.css';
 import logo from '../../../assets/logo.svg';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -21,13 +21,14 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
-import {checkAuthentication} from "../../../scripts";
+import {Redirect, Link} from 'react-router-dom';
+import {checkAuthentication, getToken, getUsername} from "../../../scripts";
+import {toast} from "react-toastify";
 
 const DrawerItem = props => {
     const Icon = props.icon;
     return (
-        <div className={classes.drawerItem}>
+        <div className={classes.drawerItem} onClick={props.onClick}>
             <Icon className={classes.drawerIcon}/>
             <div className={classes.drawerItemTitle}>{props.title}</div>
         </div>
@@ -35,40 +36,69 @@ const DrawerItem = props => {
 };
 const DashboardPage = props => {
     checkAuthentication(props.history);
+    const username = getUsername();
     const [isUpdate, setIsUpdate] = useState(false);
     const [file, setFile] = useState(null);
     const [updateFor, setUpdateFor] = useState('');
+    const [version, setVersion] = useState('');
+    const [searchText, setSearchText] = useState('');
     const [redirectLogin, setRedirectLogin] = useState('');
+    const [files, setFiles] = useState([]);
+
+    const handleLogout = () => {
+        axios.post('/api/logout', {token: getToken()}).then(res => window.location.reload(), err => {
+        });
+    };
+
+    const handleDeleteFile = (fid, vid) => {
+
+    };
 
     const handleUpload = () => {
         if (!file) return;
         const data = new FormData();
-        data.append('version', 1);
-        if (isUpdate)
+        if (!version.trim()) return toast.error('The Version Name field can not be empty!');
+        data.append('version', version);
+        if (isUpdate) {
+            if (!updateFor.trim() || !version.trim()) return toast.error('Enter both file id and version name!');
             data.append('updateFor', updateFor);
+        }
         data.append('file', file);
         axios
-            .post('http://localhost:5000/upload', data, {
+            .post('/api/upload', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
                 withCredentials: true
             }).then(res => {
-            // console.log(res);
             if (res.data.redirect) setRedirectLogin(res.data.redirect);
+            setFile(null);
+            setVersion('');
+            setUpdateFor('');
+            setTimeout(getMyFiles, 1200);
         }, err => console.log(err));
     };
+    const getMyFiles = () => {
+        axios.post('/api/getMyFiles').then(res => {
+            console.log(res.data)
+            setFiles(res.data);
+        }).catch(err => console.log(err));
+    }
+
+    useEffect(() => {
+        getMyFiles();
+    }, []);
 
     return (
         <div className={classes.wrapper}>
-            {redirectLogin && <Redirect to={redirectLogin} />}
+            {redirectLogin && <Redirect to={redirectLogin}/>}
             <div className={classes.titleBar}>
                 <img src={logo} alt={"UPLOADY"} className={classes.logo}/>
                 <div className={classes.menuIcon}><MenuIcon style={{color: '#FFFFFF', width: 40, height: 40}}/></div>
                 <div style={{flex: 1}}/>
                 <div className={classes.menuIcon}><MailIcon style={{color: '#FFFFFF', width: 40, height: 40}}/></div>
                 <AccountCircleIcon style={{color: '#FFFFFF', width: 40, height: 40}}/>
-                <div className={classes.user}>user@account.com</div>
+                <div className={classes.user}>{username}</div>
                 <ArrowDropDownIcon style={{color: '#FFFFFF', width: 40, height: 40, marginRight: 20}}/>
             </div>
             <div className={classes.div}>
@@ -83,7 +113,7 @@ const DashboardPage = props => {
                     <DrawerItem icon={ChatIcon} title={'File Comments'}/>
                     <DrawerItem icon={FavoriteIcon} title={'Favorite Files'}/>
                     <DrawerItem icon={HelpOutlineIcon} title={'Training'}/>
-                    <DrawerItem icon={PowerSettingsNewIcon} title={'Logout'}/>
+                    <DrawerItem icon={PowerSettingsNewIcon} title={'Logout'} onClick={handleLogout}/>
                 </div>
                 <div className={classes.body}>
                     <div className={classes.bodyTitleBar}>
@@ -117,7 +147,7 @@ const DashboardPage = props => {
                         </div>
                     </div>
                     <div className={classes.searchBarWrapper}>
-                        <input type={"search"} placeholder={'search in files...'}/>
+                        <input type={"search"} placeholder={'search in files...'} onChange={e => setSearchText(e.target.value)}/>
                         <button className={classes.searchButton}>Search</button>
                     </div>
                     <div className={classes.tableWrapper}>
@@ -125,6 +155,7 @@ const DashboardPage = props => {
                         <table className={classes.table} cellPadding="0" cellSpacing="0">
                             <thead>
                             <td>ID</td>
+                            <td>VID</td>
                             <td>Name</td>
                             <td>Short Link</td>
                             <td>Version</td>
@@ -133,33 +164,29 @@ const DashboardPage = props => {
                             <td>Delete</td>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>ID</td>
-                                <td>Name</td>
-                                <td>Short Link</td>
-                                <td>Version</td>
-                                <td>Size</td>
-                                <td>date</td>
-                                <td><DeleteForeverIcon style={{color: 'red'}}/></td>
-                            </tr>
-                            <tr>
-                                <td>ID</td>
-                                <td>Name</td>
-                                <td>Short Link</td>
-                                <td>Version</td>
-                                <td>Size</td>
-                                <td>date</td>
-                                <td><DeleteForeverIcon style={{color: 'red'}}/></td>
-                            </tr>
-                            <tr>
-                                <td>ID</td>
-                                <td>Name</td>
-                                <td>Short Link</td>
-                                <td>Version</td>
-                                <td>Size</td>
-                                <td>date</td>
-                                <td><DeleteForeverIcon style={{color: 'red'}}/></td>
-                            </tr>
+                            {
+                                files.length > 0 ? (
+                                    (searchText.trim() ? files.filter(f => f.name.toLowerCase().includes(searchText.toLowerCase().trim())) : files).map(file => (
+                                        <tr>
+                                            <td>{file.fid}</td>
+                                            <td>{file.vid}</td>
+                                            <td>{file.name}</td>
+                                            <td><Link to={`/${file.shortId}`}>{file.shortId}</Link></td>
+                                            <td>{file.version}</td>
+                                            <td>{file.size}</td>
+                                            <td>{new Date(file.upload_date).toLocaleString()}</td>
+                                            <td>
+                                                <DeleteForeverIcon
+                                                    style={{color: 'red', cursor: 'pointer'}}
+                                                    onClick={() => handleDeleteFile(file.id, file.vid)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : <tr>
+                                    <td colSpan={100}>No Files Yet...</td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>
@@ -174,6 +201,16 @@ const DashboardPage = props => {
                             <label className={classes.fileUploadLabel} htmlFor={'fileInput'}>
                                 <div className={classes.uploadButtonText}>Select File</div>
                             </label>
+                        </div>
+                        <div style={{paddingLeft: 20}}>
+                            <br/>
+                            Version Name:
+                            <input
+                                type='text'
+                                className={classes.fileId}
+                                value={version}
+                                onChange={e => setVersion(e.target.value)}
+                            />
                         </div>
                         <div className={classes.update}>
                             {
@@ -194,6 +231,7 @@ const DashboardPage = props => {
                                 type='text'
                                 className={classes.fileId}
                                 disabled={!isUpdate}
+                                value={updateFor}
                                 onChange={e => setUpdateFor(e.target.value)}
                             />
                             <div className={classes.finalUploadButton} onClick={handleUpload}>
