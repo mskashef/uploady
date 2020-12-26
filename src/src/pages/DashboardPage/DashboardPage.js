@@ -51,7 +51,11 @@ const DashboardPage = props => {
     };
 
     const handleDeleteFile = (fid, vid) => {
-
+        axios.delete(`/api/deleteFile/${fid}/${vid}`).then(res => {
+            setTimeout(getMyFiles, 1200);
+        }).catch(err => {
+            toast.error('An error occurred!');
+        })
     };
 
     const handleUpload = () => {
@@ -178,7 +182,7 @@ const DashboardPage = props => {
                                             <td>
                                                 <DeleteForeverIcon
                                                     style={{color: 'red', cursor: 'pointer'}}
-                                                    onClick={() => handleDeleteFile(file.id, file.vid)}
+                                                    onClick={() => handleDeleteFile(file.fid, file.vid)}
                                                 />
                                             </td>
                                         </tr>
