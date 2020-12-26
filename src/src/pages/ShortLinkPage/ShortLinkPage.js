@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Redirect} from 'react-router-dom';
+import axios from 'axios';
 function convertBase(str, fromBase, toBase) {
-
     const DIGITS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     const add = (x, y, base) => {
         let z = [];
         const n = Math.max(x.length, y.length);
@@ -19,7 +18,6 @@ function convertBase(str, fromBase, toBase) {
         }
         return z;
     }
-
     const multiplyByNumber = (num, x, base) => {
         if (num < 0) return null;
         if (num == 0) return [];
@@ -35,7 +33,6 @@ function convertBase(str, fromBase, toBase) {
 
         return result;
     }
-
     const parseToDigitsArray = (str, base) => {
         const digits = str.split('');
         let arr = [];
@@ -46,29 +43,40 @@ function convertBase(str, fromBase, toBase) {
         }
         return arr;
     }
-
     const digits = parseToDigitsArray(str, fromBase);
     if (digits === null) return null;
-
     let outArray = [];
     let power = [1];
     for (let i = 0; i < digits.length; i++) {
         digits[i] && (outArray = add(outArray, multiplyByNumber(digits[i], power, toBase), toBase));
         power = multiplyByNumber(fromBase, power, toBase);
     }
-
     let out = '';
     for (let i = outArray.length - 1; i >= 0; i--)
         out += DIGITS[outArray[i]];
-
     return out;
 }
 
 const ShortLinkPage = props => {
-    console.log(props.match.params.shortLink);
+    const [canRedirect, setCanRedirect] = useState(false);
+    const [error, setError] = useState('');
     const redirectTo = '/download/' + convertBase(props.match.params.shortLink, 62, 10);
+    useEffect(() => {
+        console.log(`/api/fileExists/${convertBase(props.match.params.shortLink, 62, 10)}`);
+        axios.get(`/api/fileExists/${convertBase(props.match.params.shortLink, 62, 10)}`).then(res => {
+            if (res.data.exists === '1') {
+                setCanRedirect(true);
+            } else {
+                setError("404");
+            }
+        })
+    }, []);
     return (
-        <div>Redirecting... <Redirect to={redirectTo} /></div>
+        <div>
+
+            {error ? 'Redirecting...' : error}
+            {canRedirect && <Redirect to={redirectTo} />}
+        </div>
     )
 };
 

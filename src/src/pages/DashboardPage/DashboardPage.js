@@ -46,7 +46,7 @@ const DashboardPage = props => {
     const [files, setFiles] = useState([]);
 
     const handleLogout = () => {
-        axios.post('/api/logout', {token: getToken()}).then(res => window.location.reload(), err => {
+        axios.delete('/api/logout').then(res => window.location.reload(), err => {
         });
     };
 
@@ -83,7 +83,7 @@ const DashboardPage = props => {
         }, err => console.log(err));
     };
     const getMyFiles = () => {
-        axios.post('/api/getMyFiles').then(res => {
+        axios.get('/api/getMyFiles').then(res => {
             console.log(res.data)
             setFiles(res.data);
         }).catch(err => console.log(err));
@@ -92,6 +92,22 @@ const DashboardPage = props => {
     useEffect(() => {
         getMyFiles();
     }, []);
+
+    const used = files.map(file => file.size)?.reduce((sum, cur) => sum + cur, 0);
+    let usedSize = files.map(file => file.size)?.reduce((sum, cur) => sum + cur, 0);
+    let unit = "B";
+    if (usedSize >= 1000) {
+        usedSize /= 1000;
+        unit = 'KB';
+    }
+    if (usedSize >= 1000) {
+        usedSize = Math.floor(usedSize) / 1000;
+        unit = 'MB';
+    }
+    if (usedSize >= 1000) {
+        usedSize = Math.floor(usedSize) / 1000;
+        unit = 'GB';
+    }
 
     return (
         <div className={classes.wrapper}>
@@ -142,16 +158,20 @@ const DashboardPage = props => {
                         </div>
                         <div className={classes.usageWrapper}>
                             <div className={classes.usageTextContainer}>
-                                <div className={classes.usageText} style={{flex: 1}}>0 MB of 100.0 GB</div>
-                                <div className={classes.usageText}>0 files</div>
+                                <div className={classes.usageText} style={{flex: 1}}>
+                                    {usedSize + ' ' + unit}
+                                    &nbsp;of 100.0 GB
+                                </div>
+                                <div className={classes.usageText}>{files.length} files</div>
                             </div>
                             <div className={classes.usageRange}>
-                                <div className={classes.usageRangeValue} style={{width: '20%'}}/>
+                                <div className={classes.usageRangeValue} style={{width: used / (100 * 1024 * 1024 * 1024) * 100 + '%'}}/>
                             </div>
                         </div>
                     </div>
                     <div className={classes.searchBarWrapper}>
-                        <input type={"search"} placeholder={'search in files...'} onChange={e => setSearchText(e.target.value)}/>
+                        <input type={"search"} placeholder={'search in files...'}
+                               onChange={e => setSearchText(e.target.value)}/>
                         <button className={classes.searchButton}>Search</button>
                     </div>
                     <div className={classes.tableWrapper}>
@@ -170,11 +190,11 @@ const DashboardPage = props => {
                             <tbody>
                             {
                                 files.length > 0 ? (
-                                    (searchText.trim() ? files.filter(f => f.name.toLowerCase().includes(searchText.toLowerCase().trim())) : files).map(file => (
+                                    (searchText.trim() ? files.filter(f => f.display_name.toLowerCase().includes(searchText.toLowerCase().trim())) : files).map(file => (
                                         <tr>
                                             <td>{file.fid}</td>
                                             <td>{file.vid}</td>
-                                            <td>{file.name}</td>
+                                            <td>{file.display_name}</td>
                                             <td><Link to={`/${file.shortId}`}>{file.shortId}</Link></td>
                                             <td>{file.version}</td>
                                             <td>{file.size}</td>

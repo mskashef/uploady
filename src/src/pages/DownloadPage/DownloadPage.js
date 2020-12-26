@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import classes from './DownloadPage.module.css';
 import bg from '../../../assets/backgroundImages/download.png';
 import {DownloadNavBarLinks} from "../../constants";
@@ -9,8 +9,19 @@ import ShareIcon from '@material-ui/icons/Share';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Footer from "../../components/Footer/Footer";
 import {Container} from '@material-ui/core';
+import axios from 'axios';
 
 const DownloadPage = props => {
+    const [versions, setVersions] = useState([]);
+    const [version, setVersion] = useState([]);
+    useEffect(() => {
+        axios.get(`/api/getFileVersions/${props.match.params.id}`)
+            .then(res => {
+                console.log(res.data)
+                setVersions(res.data);
+                setVersion(res.data[res.data.length - 1].version);
+            });
+    }, []);
     return (
         <div className={classes.wrapper}>
 
@@ -76,12 +87,18 @@ const DownloadPage = props => {
                 </div>
             </div>
 
+            <div>
+                <select value={version} onChange={e => setVersion(e.target.value)}>
+                    {versions.map(v => <option value={v.version}>{v.version}</option>)}
+                </select>
+            </div>
+
             <div className={classes.linkWrapper}>
-                https://www.youtube.com/watch?v=6coOrboUeTQ&list=PL7TO4klQB2X47wqy7G_XEZfvh9uj9VQlI&index=14
+                <a href={'http://localhost:5000' + versions.find(v => v.version === version)?.src}>http://localhost:5000{versions.find(v => v.version === version)?.src}</a>
             </div>
 
             <div className={classes.row}>
-                <div className={classes.downloadBtn}>Download</div>
+                <div className={classes.downloadBtn} onClick={() => window.location.href = 'http://localhost:5000' + versions.find(v => v.version === version)?.src}>Download</div>
                 <IconButton style={{color: '#090909', margin: "0 -10px"}}>
                     <InfoIcon style={{width: 40, height: 40}}/>
                 </IconButton>
@@ -92,7 +109,6 @@ const DownloadPage = props => {
                     <FavoriteBorderIcon style={{width: 40, height: 40, margin: "0 -10px"}}/>
                 </IconButton>
             </div>
-
             <Footer/>
         </div>
     )
