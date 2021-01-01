@@ -93,8 +93,8 @@ const DashboardPage = props => {
         getMyFiles();
     }, []);
 
-    const used = files.map(file => file.size)?.reduce((sum, cur) => sum + cur, 0);
-    let usedSize = files.map(file => file.size)?.reduce((sum, cur) => sum + cur, 0);
+    const used = files?.map(file => file.size)?.reduce((sum, cur) => sum + cur, 0);
+    let usedSize = files?.map(file => file.size)?.reduce((sum, cur) => sum + cur, 0);
     let unit = "B";
     if (usedSize >= 1000) {
         usedSize /= 1000;
@@ -190,7 +190,7 @@ const DashboardPage = props => {
                             <tbody>
                             {
                                 files.length > 0 ? (
-                                    (searchText.trim() ? files.filter(f => f.display_name.toLowerCase().includes(searchText.toLowerCase().trim())) : files).map(file => (
+                                    (searchText.trim() ? files.filter(f => f.display_name.toLowerCase().includes(searchText.toLowerCase().trim())) : files)?.map(file => (
                                         <tr>
                                             <td>{file.fid}</td>
                                             <td>{file.vid}</td>

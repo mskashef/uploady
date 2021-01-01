@@ -28,7 +28,6 @@ const Footer = props => {
                     }
                 </div>
             </Container>
-
         </div>
     )
 };

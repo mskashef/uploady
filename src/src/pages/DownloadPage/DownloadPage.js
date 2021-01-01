@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import classes from './DownloadPage.module.css';
 import bg from '../../../assets/backgroundImages/download.png';
 import {DownloadNavBarLinks} from "../../constants";
@@ -10,25 +10,87 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Footer from "../../components/Footer/Footer";
 import {Container} from '@material-ui/core';
 import axios from 'axios';
+import CropIcon from '@material-ui/icons/Crop';
+import FullScreenDialog from "../../components/Modal/Modal";
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+
+const isImage = (fileName) => {
+    if (!fileName || !fileName.includes('.')) return false;
+    return ['png', 'jpg', 'jpeg', 'bmp'].includes(fileName.slice(fileName.lastIndexOf('.') + 1));
+};
+
+/**
+ * @param {HTMLImageElement} image - Image File Object
+ * @param {Object} crop - crop Object
+ * @param {String} fileName - Name of the returned file in Promise
+ */
+function getCroppedImg(image, crop, fileName) {
+    const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext('2d');
+
+    ctx.drawImage(
+        image,
+        crop.x * scaleX,
+        crop.y * scaleY,
+        crop.width * scaleX,
+        crop.height * scaleY,
+        0,
+        0,
+        crop.width,
+        crop.height,
+    );
+
+    // As Base64 string
+    // const base64Image = canvas.toDataURL('image/jpeg');
+
+    let link = document.createElement('a');
+    link.download = fileName;
+    link.href = canvas.toDataURL();
+    link.click();
+
+    // As a blob
+    // return new Promise((resolve, reject) => {
+    //     canvas.toBlob(blob => {
+    //         blob.name = fileName;
+    //         resolve(blob);
+    //     }, 'image/jpeg', 1);
+    // });
+}
 
 const DownloadPage = props => {
     const [versions, setVersions] = useState([]);
     const [version, setVersion] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [crop, setCrop] = useState({
+        unit: '%', // default, can be 'px' or '%'
+        x: 0,
+        y: 0,
+        width: 100,
+        height: 100
+    });
+    const [img, setImg] = useState(null);
     useEffect(() => {
         axios.get(`/api/getFileVersions/${props.match.params.id}`)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data);
                 setVersions(res.data);
                 setVersion(res.data[res.data.length - 1].version);
             });
     }, []);
+    const file = versions.find(v => v.version === version);
+    const link = 'http://localhost:5000' + file?.src;
     return (
         <div className={classes.wrapper}>
 
             <div className={classes.backgroundImage} style={{backgroundImage: `url(${bg})`}}>
                 <Container>
                     <ul className={classes.navbarWrapper}>
-                        {DownloadNavBarLinks.map(link => (
+                        {DownloadNavBarLinks?.map(link => (
                             <li className={link.box ? classes.box : ''}><Link to={link.linkTo}>{link.title}</Link></li>
                         ))}
                     </ul>
@@ -89,26 +151,60 @@ const DownloadPage = props => {
 
             <div>
                 <select value={version} onChange={e => setVersion(e.target.value)}>
-                    {versions.map(v => <option value={v.version}>{v.version}</option>)}
+                    {versions?.map(v => <option value={v.version}>{v.version}</option>)}
                 </select>
             </div>
 
             <div className={classes.linkWrapper}>
-                <a href={'http://localhost:5000' + versions.find(v => v.version === version)?.src}>http://localhost:5000{versions.find(v => v.version === version)?.src}</a>
+                <a href={link}>{link}</a>
             </div>
 
             <div className={classes.row}>
-                <div className={classes.downloadBtn} onClick={() => window.location.href = 'http://localhost:5000' + versions.find(v => v.version === version)?.src}>Download</div>
+                <div
+                    className={classes.downloadBtn}
+                    onClick={() => window.location.href = link}
+                >
+                    Download
+                </div>
                 <IconButton style={{color: '#090909', margin: "0 -10px"}}>
                     <InfoIcon style={{width: 40, height: 40}}/>
                 </IconButton>
                 <IconButton style={{color: '#090909', margin: "0 -10px"}}>
                     <ShareIcon style={{width: 40, height: 40}}/>
                 </IconButton>
-                <IconButton style={{color: 'red'}}>
-                    <FavoriteBorderIcon style={{width: 40, height: 40, margin: "0 -10px"}}/>
+                <IconButton style={{color: 'red', margin: "0 -10px"}}>
+                    <FavoriteBorderIcon style={{width: 40, height: 40}}/>
                 </IconButton>
+                {isImage(file?.name) ? (
+                    <IconButton style={{color: 'steelblue', margin: "0 -10px"}} onClick={() => setOpen(true)}>
+                        <CropIcon style={{width: 40, height: 40}}/>
+                    </IconButton>
+                ) : null}
             </div>
+            <FullScreenDialog
+                title={'Crop Image'}
+                open={open}
+                onClose={() => setOpen(false)}
+            >
+                <div className={classes.modalBody}>
+                    <div className={classes.modalImageWrapper}>
+                        <ReactCrop
+                            src={file?.src}
+                            onChange={crop => setCrop(crop)}
+                            crop={crop}
+                            onImageLoaded={img => {
+                                setImg(img)
+                            }}
+                        />
+                    </div>
+                    <div
+                        className={classes.downloadBtn}
+                        onClick={async () => await getCroppedImg(img, crop, file.name)}
+                    >
+                        Download Selected Part
+                    </div>
+                </div>
+            </FullScreenDialog>
             <Footer/>
         </div>
     )

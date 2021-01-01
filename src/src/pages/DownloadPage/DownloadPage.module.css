@@ -178,3 +178,22 @@
     align-items: center;
     justify-content: center;
 }
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.croppingImage {
+    max-width: 100%;
+}
+.modalImageWrapper {
+    display: inline-block;
+    /*border: 2px solid skyblue;*/
+    margin: 20px 0;
+    position: relative;
+    max-width: 500px;
+    max-height: 500px;
+    -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+}
