@@ -36,4 +36,6 @@ Or to build and run the project (for deployment):
 ![DownloadPage](/screenshots/Download.png)
 #### Crop Image
 ![ImageCrop](/screenshots/Crop.png)
+#### Resize Image
+![ImageResize](/screenshots/Resize.png)
 
