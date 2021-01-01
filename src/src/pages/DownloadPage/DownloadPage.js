@@ -15,10 +15,14 @@ import FullScreenDialog from "../../components/Modal/Modal";
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import CropFreeIcon from '@material-ui/icons/CropFree';
+import {backendURL} from "../../../constants";
+
+
 const isImage = (fileName) => {
     if (!fileName || !fileName.includes('.')) return false;
     return ['png', 'jpg', 'jpeg', 'bmp'].includes(fileName.slice(fileName.lastIndexOf('.') + 1));
 };
+
 /**
  * @param {HTMLImageElement} image - Image File Object
  * @param {Object} crop - crop Object
@@ -43,22 +47,10 @@ function getCroppedImg(image, crop, fileName) {
         crop.width,
         crop.height,
     );
-
-    // As Base64 string
-    // const base64Image = canvas.toDataURL('image/jpeg');
-
     let link = document.createElement('a');
     link.download = fileName;
     link.href = canvas.toDataURL();
     link.click();
-
-    // As a blob
-    // return new Promise((resolve, reject) => {
-    //     canvas.toBlob(blob => {
-    //         blob.name = fileName;
-    //         resolve(blob);
-    //     }, 'image/jpeg', 1);
-    // });
 }
 
 const DownloadPage = props => {
@@ -66,6 +58,7 @@ const DownloadPage = props => {
     const [version, setVersion] = useState([]);
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
+    const [percent, setPercent] = useState(100);
     const [crop, setCrop] = useState({
         unit: '%', // default, can be 'px' or '%'
         x: 0,
@@ -225,12 +218,22 @@ const DownloadPage = props => {
                         />
                     </div>
                     <div>
-                        The result image will be <input type={'text'} className={classes.percentage}/> % of the resource image!
+                        The result image will be
+                        <input
+                            value={percent}
+                            onChange={e => {
+                                setPercent(Number(e.target.value));
+                            }}
+                            type={'number'}
+                            className={classes.percentage}
+                        />
+                        % of the resource image!
                     </div>
                     <div
                         className={classes.downloadBtn}
-                        onClick={ () => {
-                            axios.get('http://localhost:5000/files/msk/1609519054861.png/resize?percentage=20').then(res => console.log(res.data.toString('base64')))
+                        onClick={() => {
+                            console.log(file);
+                            window.location.href = backendURL + file.src + '/resize?percentage=' + percent;
                         }}
                     >
                         Download Resized Image

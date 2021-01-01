@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2586c5b8-6bfb-4151-9702-8c8c4ebed090" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/constants.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/src/components/Modal/Modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/src/components/Modal/Modal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/src/pages/DownloadPage/DownloadPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/src/pages/DownloadPage/DownloadPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/src/pages/DownloadPage/DownloadPage.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/src/pages/DownloadPage/DownloadPage.module.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,16 +21,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/src/pages/DownloadPage/DownloadPage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="17" selection-start-line="17" selection-end-line="20" selection-end-column="2" />
+            <state relative-caret-position="216">
+              <caret line="237" column="21" lean-forward="true" selection-start-line="237" selection-start-column="21" selection-end-line="237" selection-end-column="21" />
               <folding>
                 <element signature="e#0#57#0" expanded="true" />
                 <element signature="n#!!doc;n#getCroppedImg#0" />
                 <element signature="e#7493#8372#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/constants.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="34" selection-start-column="34" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -102,11 +107,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="115">
+              <first_editor relative-caret-position="-331">
                 <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
               </first_editor>
               <second_editor />
@@ -197,8 +202,9 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/src/components/Modal/Modal.js" />
         <option value="$PROJECT_DIR$/src/src/pages/DownloadPage/DownloadPage.module.css" />
-        <option value="$PROJECT_DIR$/src/src/pages/DownloadPage/DownloadPage.js" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/constants.js" />
+        <option value="$PROJECT_DIR$/src/src/pages/DownloadPage/DownloadPage.js" />
       </list>
     </option>
   </component>
@@ -292,12 +298,12 @@
       <workItem from="1609173215437" duration="924000" />
       <workItem from="1609316631508" duration="764000" />
       <workItem from="1609401983803" duration="606000" />
-      <workItem from="1609500711895" duration="17118000" />
+      <workItem from="1609500711895" duration="18084000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131327000" />
+    <option name="totallyTimeSpent" value="132293000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -312,7 +318,7 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19233312" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19233312" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -326,7 +332,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32941177" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.22205882" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.22205882" />
       <window_info anchor="bottom" id="TypeScript" order="11" weight="0.32941177" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -622,6 +628,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="-331">
+            <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/src/components/Modal/Modal.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="318">
@@ -632,25 +648,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="34" selection-start-column="34" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/src/pages/DownloadPage/DownloadPage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="17" selection-start-line="17" selection-end-line="20" selection-end-column="2" />
+        <state relative-caret-position="216">
+          <caret line="237" column="21" lean-forward="true" selection-start-line="237" selection-start-column="21" selection-end-line="237" selection-end-column="21" />
           <folding>
             <element signature="e#0#57#0" expanded="true" />
             <element signature="n#!!doc;n#getCroppedImg#0" />
             <element signature="e#7493#8372#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="115">
-            <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
