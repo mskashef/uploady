@@ -14,12 +14,11 @@ import CropIcon from '@material-ui/icons/Crop';
 import FullScreenDialog from "../../components/Modal/Modal";
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-
+import CropFreeIcon from '@material-ui/icons/CropFree';
 const isImage = (fileName) => {
     if (!fileName || !fileName.includes('.')) return false;
     return ['png', 'jpg', 'jpeg', 'bmp'].includes(fileName.slice(fileName.lastIndexOf('.') + 1));
 };
-
 /**
  * @param {HTMLImageElement} image - Image File Object
  * @param {Object} crop - crop Object
@@ -66,6 +65,7 @@ const DownloadPage = props => {
     const [versions, setVersions] = useState([]);
     const [version, setVersion] = useState([]);
     const [open, setOpen] = useState(false);
+    const [open2, setOpen2] = useState(false);
     const [crop, setCrop] = useState({
         unit: '%', // default, can be 'px' or '%'
         x: 0,
@@ -73,6 +73,7 @@ const DownloadPage = props => {
         width: 100,
         height: 100
     });
+    const imgRef = useRef(null);
     const [img, setImg] = useState(null);
     useEffect(() => {
         axios.get(`/api/getFileVersions/${props.match.params.id}`)
@@ -180,6 +181,11 @@ const DownloadPage = props => {
                         <CropIcon style={{width: 40, height: 40}}/>
                     </IconButton>
                 ) : null}
+                {isImage(file?.name) ? (
+                    <IconButton style={{color: 'steelblue', margin: "0 -10px"}} onClick={() => setOpen2(true)}>
+                        <CropFreeIcon style={{width: 40, height: 40}}/>
+                    </IconButton>
+                ) : null}
             </div>
             <FullScreenDialog
                 title={'Crop Image'}
@@ -202,6 +208,32 @@ const DownloadPage = props => {
                         onClick={async () => await getCroppedImg(img, crop, file.name)}
                     >
                         Download Selected Part
+                    </div>
+                </div>
+            </FullScreenDialog>
+            <FullScreenDialog
+                title={'Resize Image'}
+                open={open2}
+                onClose={() => setOpen2(false)}
+            >
+                <div className={classes.modalBody}>
+                    <div className={classes.modalImageWrapper}>
+                        <img
+                            ref={imgRef}
+                            style={{maxWidth: 500, maxHeight: 500}}
+                            src={file?.src}
+                        />
+                    </div>
+                    <div>
+                        The result image will be <input type={'text'} className={classes.percentage}/> % of the resource image!
+                    </div>
+                    <div
+                        className={classes.downloadBtn}
+                        onClick={ () => {
+                            axios.get('http://localhost:5000/files/msk/1609519054861.png/resize?percentage=20').then(res => console.log(res.data.toString('base64')))
+                        }}
+                    >
+                        Download Resized Image
                     </div>
                 </div>
             </FullScreenDialog>

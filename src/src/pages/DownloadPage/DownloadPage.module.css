@@ -192,8 +192,17 @@
     margin: 20px 0;
     position: relative;
     max-width: 500px;
-    max-height: 500px;
+    /*max-height: 500px;*/
     -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
     -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+}
+.percentage {
+    width: 70px;
+    height: 40px;
+    border: 2px solid steelblue;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-align: center;
 }

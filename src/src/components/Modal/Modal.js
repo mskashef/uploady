@@ -43,7 +43,7 @@ export default function FullScreenDialog(props) {
                         {/*</Button>*/}
                     </Toolbar>
                 </AppBar>
-                <div style={{flex: 1}}>
+                <div>
                     {props.children}
                 </div>
             </Dialog>

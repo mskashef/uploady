@@ -14,6 +14,19 @@ Or to build and run the project (for deployment):
 2. Run `npm run build` in the terminal.
 3. Run `serve -s build` to start the built project on port 3000;
 
+## Implemented Functionalities
+1. JWT User Authentication
+2. File Upload
+3. File Download
+4. Can have different versions of a file
+5. Delete File
+6. Image Crop
+7. Image Resize
+8. Monitoring
+9. Download Partial Content using `Range` Header
+10. URL Shortener
+
+
 # Screenshots
 #### HomePage
 ![HomePage](/screenshots/Home.png)
@@ -23,3 +36,4 @@ Or to build and run the project (for deployment):
 ![DownloadPage](/screenshots/Download.png)
 #### Crop Image
 ![ImageCrop](/screenshots/Crop.png)
+
